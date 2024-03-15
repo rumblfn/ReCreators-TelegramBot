@@ -20,7 +20,26 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Utils\" />
+      <None Include="bin\Debug\net6.0\.env" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="bin\Debug\net6.0\" />
+      <Folder Include="upload\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update=".env">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DataManager\DataManager.csproj" />
+    </ItemGroup>
+    
+    <Target Name="MakeMyDir" AfterTargets="Build">
+        <MakeDir Directories="$(ProjectDir)upload" Condition="!Exists('$(ProjectDir)upload')"  />
+        <MakeDir Directories="$(OutDir)upload" Condition="!Exists('$(OutDir)upload')"  />
+    </Target>
 </Project>

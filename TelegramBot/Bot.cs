@@ -1,45 +1,45 @@
-using TelegramBot.Listeners;
 using TelegramBot.Types;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
-using TelegramBot.Commands;
+using Telegram.Bot.Types.Enums;
+using TelegramBot.Handlers;
+using TelegramBot.Handlers.Commands;
+using TelegramBot.Handlers.InlineButtons.Download;
+using TelegramBot.Handlers.InlineButtons.Exit;
+using TelegramBot.Handlers.InlineButtons.Filter;
+using TelegramBot.Handlers.InlineButtons.Sort;
 
 namespace TelegramBot;
 
 public class Bot {
-    private List<Command> Commands { get; set; }
-    private List<Listener> Listeners { get; set; }
+    private List<Handler> Handlers { get; set; }
+
+    private User? Client { get; set; }
+    public string Token { get; init; }
     
-    public User? Client { get; private set; }
-    public string? Token { get; init; }
-    
-    public Bot()
+    public Bot(string token)
     {
-        Listeners = new List<Listener> 
+        Token = token;
+        
+        Handlers = new List<Handler> 
         {
-            new MessageListener(this),
-        };
-        Commands = new List<Command>
-        {
+            new SortButton(this),
+            new ExitButton(this),
+            new FilterButton(this),
+            new DownloadButton(this),
+            new DownloadCsvButton(this),
+            new DownloadJsonButton(this),
             new StartCommand(this),
-            new HelpCommand(this),
-            new MeCommand(this),
-            new EchoCommand(this),
+            new MessageHandler(this),
         };
     }
     
-    public async Task Init() 
+    public async Task Start() 
     {
-        if (Token == null)
-        {
-            throw new Exception("Token not provided.");
-        }
-        
         var botClient = new TelegramBotClient(Token);
         using var cts = new CancellationTokenSource();
 
-        // TODO: Add receiverOptions.
         botClient.StartReceiving(
             HandleUpdateAsync,
             HandleErrorAsync,
@@ -49,22 +49,35 @@ public class Bot {
         Client = await botClient.GetMeAsync(cancellationToken: cts.Token);
         Console.WriteLine($"Logged as @{Client.Username}");
         Console.Read();
-
+        
         cts.Cancel();
     }
 
     private async Task HandleUpdateAsync(
         ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
-        var context = new Context(update, botClient);
-        
-        foreach (Listener listener in Listeners.Where(listener => listener.Validate(context, cancellationToken)))
+        ChatType? chatType = update.Message?.Chat.Type;
+        if (chatType != null && chatType != ChatType.Private)
         {
-            await listener.Handler(context, cancellationToken);
+            return;
         }
-        foreach (Command command in Commands.Where(command => command.Validate(context, cancellationToken)))
+
+        var context = new Context(update, botClient, cancellationToken);
+        Handler? handler = Handlers.Find(handler => handler.Validate(context));
+
+        if (handler == null)
         {
-            await command.Handler(context, cancellationToken);
+            return;
+        }
+        
+        try
+        {
+            await handler.Handle(context);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Something went wrong with processing handler.");
+            Console.WriteLine($"Error: {e.Message}");
         }
     }
     

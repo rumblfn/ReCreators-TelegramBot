@@ -3,16 +3,21 @@ using Telegram.Bot.Types.Enums;
 
 namespace TelegramBot.Types;
 
-public abstract class Command : Listener
+public abstract class Command : Handler
 {
-    protected string[] Names { get; init; } = Array.Empty<string>();
+    private readonly string _name = string.Empty;
+    protected string Name
+    {
+        get => _name;
+        init => _name = "/" + value;
+    }
 
     protected Command(Bot bot) : base(bot) 
     {
         
     }
     
-    public override bool Validate(Context context, CancellationToken cancellationToken)
+    public override bool Validate(Context context)
     {
         if (context.Update.Type != UpdateType.Message ||
             context.Update.Message!.Type != MessageType.Text ||
@@ -20,14 +25,14 @@ public abstract class Command : Listener
         {
             return false;
         }
-        
-        string messageText = context.Update.Message.Text.Replace($"@{Bot.Client.Username}","");
-        return Names.Any(name => messageText.StartsWith($"{name} ") || messageText.Equals(name));
+
+        string messageText = context.Update.Message.Text;
+        return messageText.Split(' ')[0].Equals(Name);
     }
     
-    public override async Task Handler(Context context, CancellationToken cancellationToken)
+    public override async Task Handle(Context context)
     {
-        string response = await RunAsync(context, cancellationToken);
+        string response = await RunAsync(context);
         
         if (context.Update.Message != null)
         {
@@ -35,26 +40,25 @@ public abstract class Command : Listener
             
             if (response.Length == 0)
             {
-                return;
+                response = "Empty response, try another way.";
             }
             
             await context.BotClient.SendTextMessageAsync(
                 chatId: chatId,
                 text: response,
-                parseMode: ParseMode.MarkdownV2,
                 replyToMessageId: context.Update.Message.MessageId, 
-                cancellationToken: cancellationToken
+                cancellationToken: context.CancellationToken
             );
         }
     }
 
-    protected virtual string Run(Context context, CancellationToken cancellationToken) 
+    protected virtual string Run(Context context) 
     {
         throw new NotImplementedException();
     }
     
-    protected virtual async Task<string> RunAsync(Context context, CancellationToken cancellationToken)
+    protected virtual Task<string> RunAsync(Context context)
     {
-        return Run(context, cancellationToken);
+        return Task.FromResult(Run(context));
     }
 }

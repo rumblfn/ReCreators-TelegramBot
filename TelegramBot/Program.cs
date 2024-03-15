@@ -3,9 +3,7 @@ using TelegramBot;
 
 Env.Load();
 
-var bot = new Bot
-{
-    Token = Environment.GetEnvironmentVariable("TOKEN") ?? "",
-};
+string token = Environment.GetEnvironmentVariable("TOKEN") ?? "";
+var bot = new Bot(token);
 
-bot.Init().Wait();
+bot.Start().Wait();
