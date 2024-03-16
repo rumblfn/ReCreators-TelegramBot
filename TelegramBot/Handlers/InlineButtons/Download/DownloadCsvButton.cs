@@ -1,3 +1,4 @@
+using DataManager;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using TelegramBot.Types;
@@ -21,11 +22,16 @@ public class DownloadCsvButton : Button
             return;
         }
 
-        await using FileStream sendFileStream = SystemFile.Open(UploadFilePath.Get(message), FileMode.Open);
+        FormatProcessing formatProcessing = new();
+        string path = UploadFilePath.Get(message);
+        
+        await using Stream outStream = formatProcessing.WriteToStream(path, FormatEnum.Csv);
+        string fileName = Path.GetFileNameWithoutExtension(message.ReplyToMessage?.Document?.FileName) + ".csv";
+        
         await context.BotClient.SendDocumentAsync(
             chatId: message.Chat.Id,
-            document: new InputFileStream(sendFileStream, message.ReplyToMessage?.Document?.FileName ?? "File.csv"),
-            caption: "Updated file",
+            document: new InputFileStream(outStream, fileName),
+            caption: "Updated file in csv format",
             replyToMessageId: message.MessageId,
             cancellationToken: context.CancellationToken
         );

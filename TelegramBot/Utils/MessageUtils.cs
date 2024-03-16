@@ -8,7 +8,7 @@ namespace TelegramBot.Utils;
 public static class MessageUtils
 {
     public static async Task EditTextFromCallbackAsync(
-        Context context, string text, InlineKeyboardMarkup inlineKeyboardMarkup)
+        Context context, string text, InlineKeyboardMarkup? inlineKeyboardMarkup)
     {
         Message? message = context.Update.CallbackQuery?.Message;
         if (message is null)

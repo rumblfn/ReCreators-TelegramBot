@@ -14,7 +14,7 @@ public class SortButton : Button
     {
         await MessageUtils.EditTextFromCallbackAsync(
             context, 
-            "Select sort type", 
+            "Select sort type",
             ReadyInlineKeyboardMarkups.SortType);
     }
 }

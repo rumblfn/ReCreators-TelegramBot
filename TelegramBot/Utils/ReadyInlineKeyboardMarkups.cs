@@ -56,4 +56,12 @@ public static class ReadyInlineKeyboardMarkups
             InlineKeyboardButton.WithCallbackData("Exit", "exit")
         }
     });
+    
+    public static readonly InlineKeyboardMarkup Exit = new(new[]
+    {
+        new []
+        {
+            InlineKeyboardButton.WithCallbackData("Exit", "exit")
+        }
+    });
 }

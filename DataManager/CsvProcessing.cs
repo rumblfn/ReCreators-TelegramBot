@@ -13,22 +13,26 @@ public class CsvProcessing
     
     public IEnumerable<ReCreator> Read(FileStream stream)
     {
+        stream.Position = 0;
         using var reader = new StreamReader(stream);
         using var csv = new CsvReader(reader, _csvConfig);
         
         return csv.GetRecords<ReCreator>().ToList();
     }
-
-    public FileStream Write(string path, IEnumerable<ReCreator> reCreators)
+    
+    public Stream Write(IEnumerable<ReCreator> reCreators)
     {
-        var fileStream = new FileStream(path, FileMode.Create);
-        using (var writer = new StreamWriter(fileStream))
-        using (var csv = new CsvWriter(writer, _csvConfig))
+        MemoryStream stream = new ();
+        
+        // Stream should be opened to get data from it: leaveOpen: true
+        using (StreamWriter writer = new (stream, leaveOpen: true))
+        using (CsvWriter csv = new (writer, _csvConfig))
         {
             csv.WriteRecords(reCreators);
+            writer.Flush();
         }
 
-        fileStream.Position = 0;
-        return fileStream;
+        stream.Position = 0;
+        return stream;
     }
 }

@@ -24,6 +24,11 @@ public class Bot {
         
         Handlers = new List<Handler> 
         {
+            new FilterByWorkplaceButton(this),
+            new FilterByMainObjectsButton(this),
+            new FilterByRankYearButton(this),
+            new SortByNameButton(this),
+            new SortByRankYearButton(this),
             new SortButton(this),
             new ExitButton(this),
             new FilterButton(this),

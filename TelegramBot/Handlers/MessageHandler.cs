@@ -4,6 +4,7 @@ using TelegramBot.Utils;
 using TelegramBot.Types;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using TelegramBot.Handlers.InlineButtons.Filter;
 using TelegramFile = Telegram.Bot.Types.File;
 
 namespace TelegramBot.Handlers;
@@ -22,6 +23,21 @@ public class MessageHandler : Handler
         {
             return;
         }
+
+        if (message is { Text: not null, ReplyToMessage.Text: not null })
+        {
+            string[] fieldsForFilter = { "MainObjects", "Workplace", "RankYear" };
+            foreach (string field in fieldsForFilter)
+            {
+                if (!message.ReplyToMessage.Text.Contains(field))
+                {
+                    continue;
+                }
+                
+                await FilterButton.HandleFilter(context, field);
+                return;
+            }
+        }
         
         Document? document = message.Document;
         if (document is null)
@@ -35,7 +51,6 @@ public class MessageHandler : Handler
             return;
         }
 
-        // TODO: Check file format.
         TelegramFile file = await context.BotClient.GetFileAsync(document.FileId, context.CancellationToken);
         if (file.FilePath == null)
         {
@@ -56,23 +71,23 @@ public class MessageHandler : Handler
         );
         
         string outputPath = UploadFilePath.Get(reply);
-        await using var fs = new FileStream(outputPath, FileMode.Create);
+        FileStream createStream = new (outputPath, FileMode.Create);
 
         try
         {
-            await context.BotClient.DownloadFileAsync(file.FilePath, fs, context.CancellationToken);
-
+            await context.BotClient.DownloadFileAsync(file.FilePath, createStream, context.CancellationToken);
+            
             FormatProcessing fp = new();
-            List<ReCreator>? reCreators = fp.ProcessFile(fs, outputPath);
+            List<ReCreator>? reCreators = fp.ProcessFile(createStream, outputPath);
 
             if (reCreators == null)
             {
                 throw new FormatException("The data format is broken");
             }
-            
+
             await context.BotClient.EditMessageTextAsync(
-                chatId: reply.Chat.Id, 
-                messageId: reply.MessageId, 
+                chatId: reply.Chat.Id,
+                messageId: reply.MessageId,
                 text: $"File <code>{document.FileName}</code> successfully downloaded. \n" +
                       "Choose action to work with data. \n" +
                       $"Parsed: <b>{reCreators.Count}</b> objects.",
@@ -83,16 +98,15 @@ public class MessageHandler : Handler
         catch (Exception ex)
         {
             await context.BotClient.EditMessageTextAsync(
-                reply.Chat.Id, reply.MessageId, 
+                reply.Chat.Id, reply.MessageId,
                 $"Failed to download the file. \n" +
-                    $"Error: <code>{ex.Message}</code>",
+                $"Error: <code>{ex.Message}</code>",
                 parseMode: ParseMode.Html,
                 cancellationToken: context.CancellationToken);
         }
         finally
         {
-            fs.Close();
-            await fs.DisposeAsync();
+            createStream.Close();
         }
     }
 }

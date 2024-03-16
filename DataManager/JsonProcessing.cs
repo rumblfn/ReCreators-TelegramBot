@@ -11,21 +11,22 @@ public class JsonProcessing
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
     };
     
-    public IEnumerable<ReCreator> Read(FileStream stream)
+    public IEnumerable<ReCreator> Read(Stream stream)
     {
+        stream.Position = 0;
         return JsonSerializer.Deserialize<List<ReCreator>>(stream) 
                ?? new List<ReCreator>();
     }
 
-    public FileStream Write(string path, IEnumerable<ReCreator> reCreators)
+    public Stream Write(IEnumerable<ReCreator> reCreators)
     {
-        var fileStream = new FileStream(path, FileMode.Create);
-        using (var writer = new Utf8JsonWriter(fileStream, _jsonWriterOptions))
+        MemoryStream stream = new ();
+        using (var writer = new Utf8JsonWriter(stream, _jsonWriterOptions))
         {
             JsonSerializer.Serialize(writer, reCreators);
         }
 
-        fileStream.Position = 0;
-        return fileStream;
+        stream.Position = 0;
+        return stream;
     }
 }
