@@ -1,7 +1,7 @@
 using DataManager;
-using Telegram.Bot.Types;
 using TelegramBot.Types;
 using TelegramBot.Utils;
+using Telegram.Bot.Types;
 
 namespace TelegramBot.Handlers.InlineButtons.Sort;
 
@@ -9,7 +9,7 @@ public class SortByNameButton : Button
 {
     public SortByNameButton(Bot bot) : base(bot)
     {
-        Value = "Name";
+        Value = "sort:Name";
     }
     
     protected override async Task RunAsync(Context context)

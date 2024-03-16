@@ -1,9 +1,8 @@
 using DataManager;
 using Telegram.Bot;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Types;
 using TelegramBot.Utils;
+using Telegram.Bot.Types;
 
 namespace TelegramBot.Handlers.InlineButtons.Filter;
 

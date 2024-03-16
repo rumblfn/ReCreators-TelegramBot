@@ -7,7 +7,7 @@ public class FilterByWorkplaceButton : Button
 {
     public FilterByWorkplaceButton(Bot bot) : base(bot)
     {
-        Value = "Workplace";
+        Value = "filter:Workplace";
     }
     
     protected override async Task RunAsync(Context context)

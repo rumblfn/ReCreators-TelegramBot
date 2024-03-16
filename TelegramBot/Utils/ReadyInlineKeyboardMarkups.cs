@@ -34,9 +34,9 @@ public static class ReadyInlineKeyboardMarkups
     {
         new []
         {
-            InlineKeyboardButton.WithCallbackData("MainObjects", "MainObjects"),
-            InlineKeyboardButton.WithCallbackData("Workplace", "Workplace"),
-            InlineKeyboardButton.WithCallbackData("RankYear", "RankYear"),
+            InlineKeyboardButton.WithCallbackData("MainObjects", "filter:MainObjects"),
+            InlineKeyboardButton.WithCallbackData("Workplace", "filter:Workplace"),
+            InlineKeyboardButton.WithCallbackData("RankYear", "filter:RankYear"),
         },
         new []
         {
@@ -48,8 +48,8 @@ public static class ReadyInlineKeyboardMarkups
     {
         new []
         {
-            InlineKeyboardButton.WithCallbackData("Name alphabetical", "Name"),
-            InlineKeyboardButton.WithCallbackData("RankYear descending", "RankYear")
+            InlineKeyboardButton.WithCallbackData("Name alphabetical", "sort:Name"),
+            InlineKeyboardButton.WithCallbackData("RankYear descending", "sort:RankYear")
         },
         new []
         {

@@ -1,22 +1,22 @@
-using TelegramBot.Types;
 using Telegram.Bot;
-using Telegram.Bot.Exceptions;
+using TelegramBot.Types;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using TelegramBot.Handlers;
+using Telegram.Bot.Exceptions;
+using Telegram.Bot.Types.Enums;
 using TelegramBot.Handlers.Commands;
-using TelegramBot.Handlers.InlineButtons.Download;
 using TelegramBot.Handlers.InlineButtons.Exit;
-using TelegramBot.Handlers.InlineButtons.Filter;
 using TelegramBot.Handlers.InlineButtons.Sort;
+using TelegramBot.Handlers.InlineButtons.Filter;
+using TelegramBot.Handlers.InlineButtons.Download;
 
 namespace TelegramBot;
 
 public class Bot {
-    private List<Handler> Handlers { get; set; }
+    private List<Handler> Handlers { get; }
 
     private User? Client { get; set; }
-    public string Token { get; init; }
+    private string Token { get; }
     
     public Bot(string token)
     {
@@ -24,17 +24,17 @@ public class Bot {
         
         Handlers = new List<Handler> 
         {
+            new FilterButton(this),
+            new FilterByRankYearButton(this),
             new FilterByWorkplaceButton(this),
             new FilterByMainObjectsButton(this),
-            new FilterByRankYearButton(this),
+            new SortButton(this),
             new SortByNameButton(this),
             new SortByRankYearButton(this),
-            new SortButton(this),
-            new ExitButton(this),
-            new FilterButton(this),
             new DownloadButton(this),
             new DownloadCsvButton(this),
             new DownloadJsonButton(this),
+            new ExitButton(this),
             new StartCommand(this),
             new MessageHandler(this),
         };

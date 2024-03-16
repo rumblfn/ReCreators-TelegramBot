@@ -6,6 +6,12 @@ public static class UploadFilePath
 {
     public static string Get(Message message, string extension = "json")
     {
-        return $"upload/{message.Chat.Id}-{message.MessageId}.{extension}";
+        const string tail = "../upload";
+        if (!Directory.Exists(tail))
+        {
+            Directory.CreateDirectory(tail);
+        }
+        
+        return $"{tail}/{message.Chat.Id}-{message.MessageId}.{extension}";
     }
 }

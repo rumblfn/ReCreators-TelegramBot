@@ -7,7 +7,7 @@ public class FilterByRankYearButton : Button
 {
     public FilterByRankYearButton(Bot bot) : base(bot)
     {
-        Value = "RankYear";
+        Value = "filter:RankYear";
     }
     
     protected override async Task RunAsync(Context context)

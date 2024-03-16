@@ -29,7 +29,7 @@ public class MessageHandler : Handler
             string[] fieldsForFilter = { "MainObjects", "Workplace", "RankYear" };
             foreach (string field in fieldsForFilter)
             {
-                if (!message.ReplyToMessage.Text.Contains(field))
+                if (!message.ReplyToMessage.Text.Contains($"filter:{field}"))
                 {
                     continue;
                 }

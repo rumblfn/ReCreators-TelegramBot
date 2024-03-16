@@ -9,12 +9,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="DotNetEnv" Version="3.0.0" />
       <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
       <PackageReference Include="Telegram.Bot" Version="19.0.0" />
@@ -37,9 +31,4 @@
     <ItemGroup>
       <ProjectReference Include="..\DataManager\DataManager.csproj" />
     </ItemGroup>
-    
-    <Target Name="MakeMyDir" AfterTargets="Build">
-        <MakeDir Directories="$(ProjectDir)upload" Condition="!Exists('$(ProjectDir)upload')"  />
-        <MakeDir Directories="$(OutDir)upload" Condition="!Exists('$(OutDir)upload')"  />
-    </Target>
 </Project>
