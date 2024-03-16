@@ -8,6 +8,7 @@ public class FilterByMainObjectsButton : Button
     public FilterByMainObjectsButton(Bot bot) : base(bot)
     {
         Value = "MainObjects";
+        
     }
     
     protected override async Task RunAsync(Context context)
