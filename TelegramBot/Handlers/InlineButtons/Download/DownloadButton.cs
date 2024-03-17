@@ -3,9 +3,12 @@ using TelegramBot.Utils;
 
 namespace TelegramBot.Handlers.InlineButtons.Download;
 
+/// <summary>
+/// Button for providing download format type.
+/// </summary>
 public class DownloadButton : Button
 {
-    public DownloadButton(Bot bot) : base(bot)
+    public DownloadButton()
     {
         Value = "download";
     }

@@ -5,40 +5,50 @@ using TelegramBot.Types;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using TelegramBot.Handlers.InlineButtons.Filter;
+using TelegramBot.Utils.Logger;
 using TelegramFile = Telegram.Bot.Types.File;
 
 namespace TelegramBot.Handlers;
 
+/// <summary>
+/// Handler for processing message (documents and replies).
+/// </summary>
 public class MessageHandler : Handler
 {
-    public MessageHandler(Bot bot):base(bot) {}
+    /// <summary>
+    /// Validates by update type.
+    /// </summary>
+    /// <param name="context">Update context.</param>
+    /// <returns></returns>
     public override bool Validate(Context context)
     {
         return context.Update.Type == UpdateType.Message;
     }
+    
     public override async Task Handle(Context context)
     {
+        // Check for null message.
         Message? message = context.Update.Message;
         if (message is null)
         {
             return;
         }
 
-        if (message is { Text: not null, ReplyToMessage.Text: not null })
-        {
-            string[] fieldsForFilter = { "MainObjects", "Workplace", "RankYear" };
-            foreach (string field in fieldsForFilter)
-            {
-                if (!message.ReplyToMessage.Text.Contains($"filter:{field}"))
-                {
-                    continue;
-                }
-                
-                await FilterButton.HandleFilter(context, field);
-                return;
-            }
-        }
+        Logger.Info($"{context.Update.Message?.From} new message.");
         
+        await HandleFilterQuery(context, message);
+        await HandleFile(context, message);
+    }
+
+    /// <summary>
+    /// Message file handler.
+    /// </summary>
+    /// <param name="context">Update context.</param>
+    /// <param name="message">Context message.</param>
+    /// <exception cref="FormatException">If file format is broken.</exception>
+    private static async Task HandleFile(Context context, Message message)
+    {
+        // Check for document.
         Document? document = message.Document;
         if (document is null)
         {
@@ -51,6 +61,7 @@ public class MessageHandler : Handler
             return;
         }
 
+        // Check for file in document.
         TelegramFile file = await context.BotClient.GetFileAsync(document.FileId, context.CancellationToken);
         if (file.FilePath == null)
         {
@@ -63,6 +74,7 @@ public class MessageHandler : Handler
             return;
         }
         
+        // If file exist.
         Message reply = await context.BotClient.SendTextMessageAsync(
             chatId: message.Chat.Id,
             text: "Trying to download a file",
@@ -70,13 +82,16 @@ public class MessageHandler : Handler
             cancellationToken: context.CancellationToken
         );
         
+        // Preparing stream to download file.
         string outputPath = UploadFilePath.Get(reply);
         FileStream createStream = new (outputPath, FileMode.Create);
 
         try
         {
+            // Downloading file form message.
             await context.BotClient.DownloadFileAsync(file.FilePath, createStream, context.CancellationToken);
             
+            // Processing file format.
             FormatProcessing fp = new();
             List<ReCreator>? reCreators = fp.ProcessFile(createStream, outputPath);
 
@@ -85,6 +100,7 @@ public class MessageHandler : Handler
                 throw new FormatException("The data format is broken");
             }
 
+            // Everything is ok.
             await context.BotClient.EditMessageTextAsync(
                 chatId: reply.Chat.Id,
                 messageId: reply.MessageId,
@@ -94,6 +110,8 @@ public class MessageHandler : Handler
                 ParseMode.Html,
                 replyMarkup: ReadyInlineKeyboardMarkups.ActionType,
                 cancellationToken: context.CancellationToken);
+            
+            Logger.Info($"{context.Update.Message?.From} loaded new file {outputPath}.");
         }
         catch (Exception ex)
         {
@@ -103,10 +121,36 @@ public class MessageHandler : Handler
                 $"Error: <code>{ex.Message}</code>",
                 parseMode: ParseMode.Html,
                 cancellationToken: context.CancellationToken);
+            
+            Logger.Error($"{context.Update.Message?.From} loading file failed {outputPath}.");
         }
         finally
         {
             createStream.Close();
+        }
+    }
+    
+    /// <summary>
+    /// Check if message is reply for bot message and handle filter button.
+    /// </summary>
+    /// <param name="context">Update context.</param>
+    /// <param name="message">User message.</param>
+    private static async Task HandleFilterQuery(Context context, Message message)
+    {
+        if (message is { Text: not null, ReplyToMessage.Text: not null })
+        {
+            string[] fieldsForFilter = { "MainObjects", "Workplace", "RankYear" };
+            foreach (string field in fieldsForFilter)
+            {
+                // Check if reference message has filter content. 
+                if (!message.ReplyToMessage.Text.Contains($"filter:{field}"))
+                {
+                    continue;
+                }
+                
+                await FilterButton.HandleFilter(context, field);
+                return;
+            }
         }
     }
 }

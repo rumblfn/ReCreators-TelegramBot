@@ -1,8 +1,13 @@
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
+using TelegramBot.Utils.Logger;
 
 namespace TelegramBot.Types;
 
+/// <summary>
+/// Command handler.
+/// Synchronous update processing.
+/// </summary>
 public abstract class Command : Handler
 {
     private readonly string _name = string.Empty;
@@ -11,12 +16,12 @@ public abstract class Command : Handler
         get => _name;
         init => _name = "/" + value;
     }
-
-    protected Command(Bot bot) : base(bot) 
-    {
-        
-    }
     
+    /// <summary>
+    /// Validate update with specified Name in command.
+    /// </summary>
+    /// <param name="context">Update context.</param>
+    /// <returns>Is valid.</returns>
     public override bool Validate(Context context)
     {
         if (context.Update.Type != UpdateType.Message ||
@@ -32,12 +37,16 @@ public abstract class Command : Handler
     
     public override async Task Handle(Context context)
     {
-        string response = await RunAsync(context);
+        Logger.Info($"{context.Update.Message?.From} calls command {Name}.");
+        
+        // Get command text.
+        string response = Run(context);
         
         if (context.Update.Message != null)
         {
             long chatId = context.Update.Message.Chat.Id;
             
+            // Processing command response.
             if (response.Length == 0)
             {
                 response = "Empty response, try another way.";
@@ -52,13 +61,15 @@ public abstract class Command : Handler
         }
     }
 
+    /// <summary>
+    /// Update processing.
+    /// Only plain text.
+    /// </summary>
+    /// <param name="context">Update context.</param>
+    /// <returns>Command text.</returns>
+    /// <exception cref="NotImplementedException">If command Run method not implemented.</exception>
     protected virtual string Run(Context context) 
     {
         throw new NotImplementedException();
-    }
-    
-    protected virtual Task<string> RunAsync(Context context)
-    {
-        return Task.FromResult(Run(context));
     }
 }

@@ -2,12 +2,16 @@ using DataManager;
 using TelegramBot.Types;
 using TelegramBot.Utils;
 using Telegram.Bot.Types;
+using TelegramBot.Utils.Logger;
 
 namespace TelegramBot.Handlers.InlineButtons.Sort;
 
+/// <summary>
+/// Handler for sort by RankYear.
+/// </summary>
 public class SortByRankYearButton : Button
 {
-    public SortByRankYearButton(Bot bot) : base(bot)
+    public SortByRankYearButton()
     {
         Value = "sort:RankYear";
     }
@@ -19,7 +23,7 @@ public class SortByRankYearButton : Button
         {
             return;
         }
-
+        
         FormatProcessing formatProc = new();
         
         string path = UploadFilePath.Get(message);
@@ -34,25 +38,26 @@ public class SortByRankYearButton : Button
             return;
         }
 
-        List<ReCreator> sortedReCreators = reCreators
-            .Select((reCreator, index) => new { Index = index, reCreator })
-            .Where(item => item.Index > 1)
-            .OrderByDescending(item => int.TryParse(
-                item.reCreator.RankYear, out int parsedRankYear)
+        List<ReCreator> sortedReCreators = reCreators.Skip(1)
+            .OrderByDescending(reCreator => int.TryParse(
+                reCreator.RankYear, out int parsedRankYear)
                 ? parsedRankYear
                 : 0)
-            .Select(item => item.reCreator)
             .ToList();
         
         reCreators = reCreators.Take(1).Concat(sortedReCreators).ToList();
 
         JsonProcessing jsonProc = new();
         Stream stream = jsonProc.Write(reCreators);
-        formatProc.SaveStreamToFile(stream, path);
+        FormatProcessing.SaveStreamToFile(stream, path);
         
         await MessageUtils.EditTextFromCallbackAsync(
             context, 
             "Sort by RankYear descending completed.",
             ReadyInlineKeyboardMarkups.ActionType);
+        
+        Logger.Info(string.Format(
+            "{0} sort data from path {1} by field: \"RankYear\" and query: {2} completed.", 
+            context.Update.CallbackQuery?.From, path, message.Text));
     }
 }

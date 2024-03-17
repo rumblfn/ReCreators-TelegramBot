@@ -5,7 +5,7 @@ namespace TelegramBot.Handlers.InlineButtons.Filter;
 
 public class FilterByRankYearButton : Button
 {
-    public FilterByRankYearButton(Bot bot) : base(bot)
+    public FilterByRankYearButton()
     {
         Value = "filter:RankYear";
     }

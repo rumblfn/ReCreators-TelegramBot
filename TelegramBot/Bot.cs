@@ -4,6 +4,7 @@ using Telegram.Bot.Types;
 using TelegramBot.Handlers;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types.Enums;
+using TelegramBot.Utils.Logger;
 using TelegramBot.Handlers.Commands;
 using TelegramBot.Handlers.InlineButtons.Exit;
 using TelegramBot.Handlers.InlineButtons.Sort;
@@ -12,64 +13,95 @@ using TelegramBot.Handlers.InlineButtons.Download;
 
 namespace TelegramBot;
 
+/// <summary>
+/// Telegram Bot wrapper to creating instance and processing updates.
+/// </summary>
 public class Bot {
     private List<Handler> Handlers { get; }
 
     private User? Client { get; set; }
     private string Token { get; }
     
+    /// <summary>
+    /// Constructor for saving token and initialize update handlers.
+    /// </summary>
+    /// <param name="token">Telegram bot token.</param>
     public Bot(string token)
     {
         Token = token;
         
         Handlers = new List<Handler> 
         {
-            new FilterButton(this),
-            new FilterByRankYearButton(this),
-            new FilterByWorkplaceButton(this),
-            new FilterByMainObjectsButton(this),
-            new SortButton(this),
-            new SortByNameButton(this),
-            new SortByRankYearButton(this),
-            new DownloadButton(this),
-            new DownloadCsvButton(this),
-            new DownloadJsonButton(this),
-            new ExitButton(this),
-            new StartCommand(this),
-            new MessageHandler(this),
+            new FilterButton(),
+            new FilterByRankYearButton(),
+            new FilterByWorkplaceButton(),
+            new FilterByMainObjectsButton(),
+            
+            new SortButton(),
+            new SortByNameButton(),
+            new SortByRankYearButton(),
+            
+            new DownloadButton(),
+            new DownloadCsvButton(),
+            new DownloadJsonButton(),
+            
+            new ExitButton(),
+            new StartCommand(),
+            new MessageHandler(),
         };
     }
     
+    /// <summary>
+    /// Creates instance of the bot and starts receiving updates.
+    /// </summary>
     public async Task Start() 
     {
+        // Creating instance of telegram bot client.
         var botClient = new TelegramBotClient(Token);
         using var cts = new CancellationTokenSource();
 
+        // Start updates receiver.
         botClient.StartReceiving(
             HandleUpdateAsync,
             HandleErrorAsync,
             cancellationToken: cts.Token
         );
-
+        
+        // Testing instance.
         Client = await botClient.GetMeAsync(cancellationToken: cts.Token);
-        Console.WriteLine($"Logged as @{Client.Username}");
+
+        // Notification that the bot is running.
+        string message = $"Logged as @{Client.Username}";
+        Logger.Info(message);
+        Console.WriteLine(message);
+        
+        // To avoid shutting down the bot immediately after launch.
         Console.Read();
         
         cts.Cancel();
     }
 
+    /// <summary>
+    /// Delegate for handling updates.
+    /// </summary>
+    /// <param name="botClient">Instance of the bot.</param>
+    /// <param name="update">Update event.</param>
+    /// <param name="cancellationToken">Token to cancel update event.</param>
     private async Task HandleUpdateAsync(
         ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
+        // Check if update from private message.
         ChatType? chatType = update.Message?.Chat.Type;
         if (chatType != null && chatType != ChatType.Private)
         {
             return;
         }
-
+        
+        // Creating update event data instance.
         var context = new Context(update, botClient, cancellationToken);
+        
+        // Check if any handler can process update.
         Handler? handler = Handlers.Find(handler => handler.Validate(context));
-
         if (handler == null)
         {
             return;
@@ -82,10 +114,17 @@ public class Bot {
         catch (Exception e)
         {
             Console.WriteLine("Something went wrong with processing handler.");
-            Console.WriteLine($"Error: {e.Message}");
+            Logger.Error(e.Message);
         }
     }
     
+    /// <summary>
+    /// Delegate for handling Telegram api errors from receiver.
+    /// </summary>
+    /// <param name="botClient">Instance of the bot.</param>
+    /// <param name="exception">Exception to handle.</param>
+    /// <param name="cancellationToken">Token to cancel event.</param>
+    /// <returns>Finished Task.</returns>
     private static Task HandleErrorAsync(
         ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
     {
@@ -95,8 +134,10 @@ public class Bot {
                 => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
             _ => exception.ToString()
         };
-
+        
         Console.WriteLine(errorMessage);
+        Logger.Error(errorMessage);
+        
         return Task.CompletedTask;
     }
 }

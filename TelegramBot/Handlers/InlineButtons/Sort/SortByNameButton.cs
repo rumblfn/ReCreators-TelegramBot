@@ -2,12 +2,16 @@ using DataManager;
 using TelegramBot.Types;
 using TelegramBot.Utils;
 using Telegram.Bot.Types;
+using TelegramBot.Utils.Logger;
 
 namespace TelegramBot.Handlers.InlineButtons.Sort;
 
+/// <summary>
+/// Handler for sort by Name.
+/// </summary>
 public class SortByNameButton : Button
 {
-    public SortByNameButton(Bot bot) : base(bot)
+    public SortByNameButton()
     {
         Value = "sort:Name";
     }
@@ -34,22 +38,23 @@ public class SortByNameButton : Button
             return;
         }
 
-        List<ReCreator> sortedReCreators = reCreators
-            .Select((reCreator, index) => new { Index = index, reCreator })
-            .Where(item => item.Index > 1)
-            .OrderBy(item => item.reCreator.Name)
-            .Select(item => item.reCreator)
+        List<ReCreator> sortedReCreators = reCreators.Skip(1)
+            .OrderBy(reCreator => reCreator.Name)
             .ToList();
 
         reCreators = reCreators.Take(1).Concat(sortedReCreators).ToList();
 
         JsonProcessing jsonProc = new();
         Stream stream = jsonProc.Write(reCreators);
-        formatProc.SaveStreamToFile(stream, path);
+        FormatProcessing.SaveStreamToFile(stream, path);
         
         await MessageUtils.EditTextFromCallbackAsync(
             context, 
             "Sort by name alphabetical completed.",
             ReadyInlineKeyboardMarkups.ActionType);
+        
+        Logger.Info(string.Format(
+            "{0} sort data from path {1} by field: \"Name\" and query: {2} completed.", 
+            context.Update.CallbackQuery?.From, path, message.Text));
     }
 }

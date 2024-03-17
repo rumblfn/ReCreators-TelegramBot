@@ -2,8 +2,12 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot.Utils;
 
+/// <summary>
+/// Inline keyboard markup templates.
+/// </summary>
 public static class ReadyInlineKeyboardMarkups
 {
+    // InlineKeyboardMarkup for selecting file type of file to send.
     public static readonly InlineKeyboardMarkup FileType = new(new[]
     {
         new []
@@ -17,6 +21,7 @@ public static class ReadyInlineKeyboardMarkups
         }
     });
     
+    // InlineKeyboardMarkup providing actions to work with uploaded file.
     public static readonly InlineKeyboardMarkup ActionType = new(new[]
     {
         new []
@@ -30,6 +35,7 @@ public static class ReadyInlineKeyboardMarkups
         },
     });
     
+    // InlineKeyboardMarkup with fields that available for filtering.
     public static readonly InlineKeyboardMarkup FilterField = new(new[]
     {
         new []
@@ -44,6 +50,7 @@ public static class ReadyInlineKeyboardMarkups
         }
     });
     
+    // InlineKeyboardMarkup with fields that available for sorting.
     public static readonly InlineKeyboardMarkup SortType = new(new[]
     {
         new []
@@ -57,6 +64,7 @@ public static class ReadyInlineKeyboardMarkups
         }
     });
     
+    // Only exit button.
     public static readonly InlineKeyboardMarkup Exit = new(new[]
     {
         new []

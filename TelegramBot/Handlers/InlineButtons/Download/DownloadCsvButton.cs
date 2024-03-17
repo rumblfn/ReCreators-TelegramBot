@@ -3,12 +3,13 @@ using Telegram.Bot;
 using TelegramBot.Types;
 using TelegramBot.Utils;
 using Telegram.Bot.Types;
+using TelegramBot.Utils.Logger;
 
 namespace TelegramBot.Handlers.InlineButtons.Download;
 
 public class DownloadCsvButton : Button
 {
-    public DownloadCsvButton(Bot bot) : base(bot)
+    public DownloadCsvButton()
     {
         Value = "csv";
     }
@@ -21,6 +22,7 @@ public class DownloadCsvButton : Button
             return;
         }
 
+        // Getting file in csv format.
         FormatProcessing formatProcessing = new();
         string path = UploadFilePath.Get(message);
         
@@ -34,5 +36,9 @@ public class DownloadCsvButton : Button
             replyToMessageId: message.MessageId,
             cancellationToken: context.CancellationToken
         );
+        
+        Logger.Info(string.Format(
+            "{0} upload file from path {1} in csv format completed.", 
+            context.Update.CallbackQuery?.From, path));
     }
 }

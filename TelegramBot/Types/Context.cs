@@ -3,6 +3,10 @@ using Telegram.Bot.Types;
 
 namespace TelegramBot.Types;
 
+/// <summary>
+/// Telegram event data provider.
+/// To avoid many arguments in methods.
+/// </summary>
 public class Context
 {
     public ITelegramBotClient BotClient { get; }

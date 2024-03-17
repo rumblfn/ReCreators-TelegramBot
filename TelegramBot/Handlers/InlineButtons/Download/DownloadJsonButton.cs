@@ -3,12 +3,13 @@ using Telegram.Bot;
 using TelegramBot.Types;
 using TelegramBot.Utils;
 using Telegram.Bot.Types;
+using TelegramBot.Utils.Logger;
 
 namespace TelegramBot.Handlers.InlineButtons.Download;
 
 public class DownloadJsonButton : Button
 {
-    public DownloadJsonButton(Bot bot) : base(bot)
+    public DownloadJsonButton()
     {
         Value = "json";
     }
@@ -21,6 +22,7 @@ public class DownloadJsonButton : Button
             return;
         }
         
+        // Getting file in json format.
         FormatProcessing formatProcessing = new();
         string path = UploadFilePath.Get(message);
         
@@ -34,5 +36,9 @@ public class DownloadJsonButton : Button
             replyToMessageId: message.MessageId,
             cancellationToken: context.CancellationToken
         );
+        
+        Logger.Info(string.Format(
+            "{0} upload file from path {1} in json format completed.", 
+            context.Update.CallbackQuery?.From, path));
     }
 }

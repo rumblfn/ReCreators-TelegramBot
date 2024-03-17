@@ -5,7 +5,7 @@ namespace TelegramBot.Handlers.InlineButtons.Filter;
 
 public class FilterByMainObjectsButton : Button
 {
-    public FilterByMainObjectsButton(Bot bot) : base(bot)
+    public FilterByMainObjectsButton()
     {
         Value = "filter:MainObjects";
     }

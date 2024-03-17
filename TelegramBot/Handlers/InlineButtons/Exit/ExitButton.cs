@@ -3,9 +3,12 @@ using TelegramBot.Utils;
 
 namespace TelegramBot.Handlers.InlineButtons.Exit;
 
+/// <summary>
+/// Exit button for providing main panel.
+/// </summary>
 public class ExitButton : Button
 {
-    public ExitButton(Bot bot) : base(bot)
+    public ExitButton()
     {
         Value = "exit";
     }

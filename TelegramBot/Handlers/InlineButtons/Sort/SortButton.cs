@@ -3,9 +3,12 @@ using TelegramBot.Utils;
 
 namespace TelegramBot.Handlers.InlineButtons.Sort;
 
+/// <summary>
+/// Sort button to provide fields available for sorting.
+/// </summary>
 public class SortButton : Button
 {
-    public SortButton(Bot bot) : base(bot)
+    public SortButton()
     {
         Value = "sort";
     }

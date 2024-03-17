@@ -5,7 +5,7 @@ namespace TelegramBot.Handlers.InlineButtons.Filter;
 
 public class FilterByWorkplaceButton : Button
 {
-    public FilterByWorkplaceButton(Bot bot) : base(bot)
+    public FilterByWorkplaceButton()
     {
         Value = "filter:Workplace";
     }
