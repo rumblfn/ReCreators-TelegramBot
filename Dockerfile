@@ -1,4 +1,4 @@
-﻿# Use the .NET SDK image to build the application
+﻿# Use the .NET SDK image to build the application for amd architecture
 FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
 

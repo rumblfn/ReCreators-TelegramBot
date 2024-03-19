@@ -1,0 +1,107 @@
+﻿Information: 17.03.2024 16:09:20 - Bot: Program started.
+Information: 17.03.2024 16:11:47 - Bot: Program started.
+Information: 17.03.2024 18:07:08 - Bot: Program started.
+Information: 17.03.2024 18:07:09 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 17.03.2024 18:07:11 - Bot: Program finished.
+Information: 17.03.2024 18:11:10 - Bot: Program started.
+Information: 17.03.2024 18:11:10 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 17.03.2024 18:12:02 - Bot: Program started.
+Information: 17.03.2024 18:12:02 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 17.03.2024 18:13:54 - Bot: Program started.
+Information: 17.03.2024 18:13:55 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 17.03.2024 18:14:07 - Bot: @skhrum (968829397) calls button exit
+Information: 17.03.2024 18:14:09 - Bot: @skhrum (968829397) calls button sort
+Information: 17.03.2024 18:30:51 - Bot: Program started.
+Information: 17.03.2024 18:30:52 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 18.03.2024 17:55:43 - Bot: Program started.
+Information: 18.03.2024 17:55:44 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 18.03.2024 17:55:44 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 17:55:46 - Bot: Program finished.
+Information: 18.03.2024 17:59:30 - Bot: Program started.
+Information: 18.03.2024 17:59:31 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 18.03.2024 17:59:33 - Bot: Program finished.
+Information: 18.03.2024 21:35:00 - Bot: Program started.
+Information: 18.03.2024 21:35:01 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 18.03.2024 21:35:19 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:35:20 - Bot: @skhrum (968829397) loaded new file /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-10.json.
+Information: 18.03.2024 21:35:21 - Bot: @skhrum (968829397) calls button filter.
+Information: 18.03.2024 21:35:22 - Bot: @skhrum (968829397) calls button filter:RankYear.
+Information: 18.03.2024 21:35:24 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:35:24 - Bot: @skhrum (968829397) filter data from path /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-10.json by field: RankYear and query: 202 completed.
+Information: 18.03.2024 21:35:45 - Bot: @skhrum (968829397) calls button filter.
+Information: 18.03.2024 21:35:46 - Bot: @skhrum (968829397) calls button filter:RankYear.
+Information: 18.03.2024 21:35:52 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:35:52 - Bot: @skhrum (968829397) loaded new file /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-14.json.
+Information: 18.03.2024 21:40:49 - Bot: Program started.
+Information: 18.03.2024 21:40:49 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 18.03.2024 21:40:53 - Bot: @skhrum (968829397) calls button filter.
+Information: 18.03.2024 21:40:54 - Bot: @skhrum (968829397) calls button filter:RankYear.
+Information: 18.03.2024 21:40:56 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:40:57 - Bot: @skhrum (968829397) filter data from path /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-14.json by field: RankYear and query: 202 completed.
+Information: 18.03.2024 21:41:02 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:43:22 - Bot: Program started.
+Information: 18.03.2024 21:43:22 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 18.03.2024 21:43:31 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:43:31 - Bot: @skhrum (968829397) loaded new file /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-19.json.
+Information: 18.03.2024 21:43:32 - Bot: @skhrum (968829397) calls button filter.
+Information: 18.03.2024 21:43:33 - Bot: @skhrum (968829397) calls button filter:RankYear.
+Information: 18.03.2024 21:43:36 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:43:37 - Bot: @skhrum (968829397) filter data from path /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-19.json by field: RankYear and query: 202 completed.
+Information: 18.03.2024 21:43:39 - Bot: @skhrum (968829397) calls button filter.
+Information: 18.03.2024 21:43:39 - Bot: @skhrum (968829397) calls button filter:RankYear.
+Information: 18.03.2024 21:43:47 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:43:47 - Bot: @skhrum (968829397) loaded new file /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-22.json.
+Information: 18.03.2024 21:44:25 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:44:25 - Bot: @skhrum (968829397) filter data from path /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-19.json by field: RankYear and query: 2022 completed.
+Information: 18.03.2024 21:44:50 - Bot: Program started.
+Information: 18.03.2024 21:44:50 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 18.03.2024 21:44:54 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:44:55 - Bot: @skhrum (968829397) loaded new file /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-25.json.
+Information: 18.03.2024 21:44:58 - Bot: @skhrum (968829397) calls button filter.
+Information: 18.03.2024 21:44:59 - Bot: @skhrum (968829397) calls button filter:RankYear.
+Information: 18.03.2024 21:45:04 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:45:04 - Bot: @skhrum (968829397) loaded new file /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-27.json.
+Information: 18.03.2024 21:45:56 - Bot: Program started.
+Information: 18.03.2024 21:45:57 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 18.03.2024 21:45:58 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:45:59 - Bot: @skhrum (968829397) loaded new file /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-29.json.
+Information: 18.03.2024 21:46:00 - Bot: @skhrum (968829397) calls button filter.
+Information: 18.03.2024 21:46:01 - Bot: @skhrum (968829397) calls button filter:RankYear.
+Information: 18.03.2024 21:46:04 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:46:04 - Bot: @skhrum (968829397) filter data from path /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-29.json by field: RankYear and query: 202 completed.
+Information: 18.03.2024 21:47:58 - Bot: Program started.
+Information: 18.03.2024 21:47:59 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 18.03.2024 21:48:03 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:48:04 - Bot: @skhrum (968829397) loaded new file /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-32.json.
+Information: 18.03.2024 21:48:05 - Bot: @skhrum (968829397) calls button filter.
+Information: 18.03.2024 21:48:06 - Bot: @skhrum (968829397) calls button filter:RankYear.
+Information: 18.03.2024 21:48:10 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:48:11 - Bot: @skhrum (968829397) loaded new file /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-34.json.
+Information: 18.03.2024 21:49:32 - Bot: Program started.
+Information: 18.03.2024 21:49:33 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 18.03.2024 21:49:39 - Bot: @skhrum (968829397) calls button filter.
+Information: 18.03.2024 21:49:41 - Bot: @skhrum (968829397) calls button filter:RankYear.
+Information: 18.03.2024 21:49:44 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:49:44 - Bot: @skhrum (968829397) loaded new file /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-36.json.
+Information: 18.03.2024 21:51:06 - Bot: Program started.
+Information: 18.03.2024 21:51:07 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 18.03.2024 21:51:07 - Bot: @skhrum (968829397) calls button filter.
+Information: 18.03.2024 21:51:08 - Bot: @skhrum (968829397) calls button filter:RankYear.
+Information: 18.03.2024 21:51:11 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:51:12 - Bot: @skhrum (968829397) loaded new file /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-38.json.
+Information: 18.03.2024 21:51:31 - Bot: Program started.
+Information: 18.03.2024 21:51:31 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 18.03.2024 21:51:33 - Bot: @skhrum (968829397) calls button filter.
+Information: 18.03.2024 21:51:34 - Bot: @skhrum (968829397) calls button filter:RankYear.
+Information: 18.03.2024 21:51:36 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:51:37 - Bot: @skhrum (968829397) loaded new file /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-40.json.
+Information: 18.03.2024 21:53:20 - Bot: Program started.
+Information: 18.03.2024 21:53:21 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 18.03.2024 21:53:23 - Bot: @skhrum (968829397) calls button filter.
+Information: 18.03.2024 21:53:24 - Bot: @skhrum (968829397) calls button filter:RankYear.
+Information: 18.03.2024 21:53:26 - Bot: @skhrum (968829397) new message.
+Information: 18.03.2024 21:53:26 - Bot: @skhrum (968829397) filter data from path /Users/samilvaliahmetov/Projects/ControlHomework3-3/upload/968829397-40.json by field: RankYear and query: 2022 completed.
+Information: 18.03.2024 22:02:29 - Bot: Program started.
+Information: 18.03.2024 22:02:30 - Bot: Logged as @BestBotEarthHadEverSeenDevBot
+Information: 18.03.2024 22:05:45 - Bot: Program started.
+Information: 18.03.2024 22:05:46 - Bot: Logged as @BestBotEarthHadEverSeenDevBot

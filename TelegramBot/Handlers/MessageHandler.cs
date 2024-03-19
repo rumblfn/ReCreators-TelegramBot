@@ -36,8 +36,8 @@ public class MessageHandler : Handler
 
         Logger.Info($"{context.Update.Message?.From} new message.");
         
-        await HandleFilterQuery(context, message);
-        await HandleFile(context, message);
+        bool status = await HandleFilterQuery(context, message);
+        await HandleFile(context, message, status);
     }
 
     /// <summary>
@@ -45,19 +45,24 @@ public class MessageHandler : Handler
     /// </summary>
     /// <param name="context">Update context.</param>
     /// <param name="message">Context message.</param>
+    /// <param name="isForFilter">If message for filter.</param>
     /// <exception cref="FormatException">If file format is broken.</exception>
-    private static async Task HandleFile(Context context, Message message)
+    private static async Task HandleFile(Context context, Message message, bool isForFilter)
     {
         // Check for document.
         Document? document = message.Document;
         if (document is null)
         {
-            await context.BotClient.SendTextMessageAsync(
-                chatId: message.Chat.Id,
-                text: "You should attach file to work with bot.",
-                replyToMessageId: message.MessageId, 
-                cancellationToken: context.CancellationToken
-            );
+            if (!isForFilter)
+            {
+                await context.BotClient.SendTextMessageAsync(
+                    chatId: message.Chat.Id,
+                    text: "You should attach file to work with bot.",
+                    replyToMessageId: message.MessageId, 
+                    cancellationToken: context.CancellationToken
+                );
+            }
+            
             return;
         }
 
@@ -135,22 +140,26 @@ public class MessageHandler : Handler
     /// </summary>
     /// <param name="context">Update context.</param>
     /// <param name="message">User message.</param>
-    private static async Task HandleFilterQuery(Context context, Message message)
+    private static async Task<bool> HandleFilterQuery(Context context, Message message)
     {
-        if (message is { Text: not null, ReplyToMessage.Text: not null })
+        if (message is not { Text: not null, ReplyToMessage.Text: not null })
         {
-            string[] fieldsForFilter = { "MainObjects", "Workplace", "RankYear" };
-            foreach (string field in fieldsForFilter)
-            {
-                // Check if reference message has filter content. 
-                if (!message.ReplyToMessage.Text.Contains($"filter:{field}"))
-                {
-                    continue;
-                }
-                
-                await FilterButton.HandleFilter(context, field);
-                return;
-            }
+            return false;
         }
+        
+        string[] fieldsForFilter = { "MainObjects", "Workplace", "RankYear" };
+        foreach (string field in fieldsForFilter)
+        {
+            // Check if reference message has filter content. 
+            if (!message.ReplyToMessage.Text.Contains($"filter:{field}"))
+            {
+                continue;
+            }
+                
+            await FilterButton.HandleFilter(context, field);
+            return true;
+        }
+
+        return false;
     }
 }

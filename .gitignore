@@ -4,5 +4,6 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
-*/.env
+*/.env.dev
+*/.env.prod
 */upload

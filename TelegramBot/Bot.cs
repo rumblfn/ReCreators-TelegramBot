@@ -18,8 +18,6 @@ namespace TelegramBot;
 /// </summary>
 public class Bot {
     private List<Handler> Handlers { get; }
-
-    private User? Client { get; set; }
     private string Token { get; }
     
     /// <summary>
@@ -68,10 +66,10 @@ public class Bot {
         );
         
         // Testing instance.
-        Client = await botClient.GetMeAsync(cancellationToken: cts.Token);
+        User client = await botClient.GetMeAsync(cts.Token);
 
         // Notification that the bot is running.
-        string message = $"Logged as @{Client.Username}";
+        string message = $"Logged as @{client.Username}";
         Logger.Info(message);
         Console.WriteLine(message);
         
@@ -82,7 +80,7 @@ public class Bot {
     }
 
     /// <summary>
-    /// Delegate for handling updates.
+    /// Method for handling updates.
     /// </summary>
     /// <param name="botClient">Instance of the bot.</param>
     /// <param name="update">Update event.</param>
@@ -90,22 +88,16 @@ public class Bot {
     private async Task HandleUpdateAsync(
         ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
-        // Check if update from private message.
+        // Check if update from private chat.
         ChatType? chatType = update.Message?.Chat.Type;
-        if (chatType != null && chatType != ChatType.Private)
-        {
-            return;
-        }
+        if (chatType != null && chatType != ChatType.Private) return;
         
         // Creating update event data instance.
         var context = new Context(update, botClient, cancellationToken);
         
         // Check if any handler can process update.
         Handler? handler = Handlers.Find(handler => handler.Validate(context));
-        if (handler == null)
-        {
-            return;
-        }
+        if (handler == null) return;
         
         try
         {
@@ -119,7 +111,7 @@ public class Bot {
     }
     
     /// <summary>
-    /// Delegate for handling Telegram api errors from receiver.
+    /// Method for handling Telegram api errors from receiver.
     /// </summary>
     /// <param name="botClient">Instance of the bot.</param>
     /// <param name="exception">Exception to handle.</param>

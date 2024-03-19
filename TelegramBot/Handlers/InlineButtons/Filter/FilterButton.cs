@@ -28,15 +28,8 @@ public class FilterButton : Button
         Message? message = context.Update.Message;
         
         // Check if message or reference message is empty.
-        if (reply is null || message?.Text is null)
-        {
-            await MessageUtils.EditTextFromCallbackAsync(
-                context, 
-                "Message or reply is empty.",
-                null);
-            return;
-        }
-
+        if (reply is null || message?.Text is null) return;
+        
         // Getting data and check file format.
         FormatProcessing formatProc = new();
         
@@ -55,21 +48,19 @@ public class FilterButton : Button
         }
 
         // Filter query.
-        List<ReCreator> filteredReCreators = reCreators
-            .Select((reCreator, index) => new { Index = index, reCreator })
-            .Where(item =>
+        List<ReCreator> filteredReCreators = reCreators.Skip(1)
+            .Where(reCreator =>
             {
                 switch (field)
                 {
-                    case "MainObjects" when !item.reCreator.MainObjects.Contains(message.Text):
-                    case "Workplace" when !item.reCreator.Workplace.Contains(message.Text):
-                    case "RankYear" when !item.reCreator.RankYear.Contains(message.Text):
+                    case "MainObjects" when !reCreator.MainObjects.Contains(message.Text):
+                    case "Workplace" when !reCreator.Workplace.Contains(message.Text):
+                    case "RankYear" when !reCreator.RankYear.Contains(message.Text):
                         return false;
                     default:
-                        return item.Index > 1;
+                        return true;
                 }
             })
-            .Select(item => item.reCreator)
             .ToList();
 
         reCreators = reCreators.Take(1).Concat(filteredReCreators).ToList();
@@ -83,7 +74,7 @@ public class FilterButton : Button
             chatId: reply.Chat.Id,
             messageId: reply.MessageId,
             text: $"Filter by field {field} and query {message.Text} completed. \n" +
-                  $"Total objects count: {reCreators.Count}",
+                  $"Total objects count: {reCreators.Count - 1}",
             replyMarkup: ReadyInlineKeyboardMarkups.ActionType,
             cancellationToken: context.CancellationToken
         );
